@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -15,52 +16,104 @@ body {
   height: 100vh;
 }
 
-#navbar {
+.navbar {
   grid-row: 1;
   background-color: #ccc;
-  padding: 0.75rem 1rem;
+  height: 2em;
+  padding: 0.25rem 1rem;
   display: flex;
   align-items: center;
 }
 
-#layout {
-  grid-row: 2;
-  display: grid;
-  grid-template-columns: 1fr 9fr;
-  height: 100%;
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  margin-right: 1em;
 }
 
-#sidebar {
-  background-color: blue;
-  color: white;
+.navbar-menu-button {
+  font-family: "JetBrainsMono NF";
+}
+
+.layout {
+  grid-row: 2;
+  /*display: grid;
+  grid-template-columns: 1fr 9fr;
+  height: 100%;*/
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
   padding: 1rem;
   overflow-y: auto;
+  width: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
-#container {
+.sidebar-element {
+  border-width: 0.25em;
+  border-color: black;
+  border-style: solid;
+  margin: 0.1em 0.1em;
+  text-align: center;
+}
+
+.todo-container {
+  flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
 
-#head {
-  background-color: red;
+.todo-head {
+  border-width: 1rem;
+  border-color: black;
   padding: 0.75rem 1rem;
   flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-#todo {
+.todo-title {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.todo-title-text {
+  border-radius: 5em;
+  width: inherit;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.todo-options {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.todo-edit {
+  font-family: "JetBrainsMono NF";
+}
+
+.todo-body {
   background-color: #eee;
   padding: 1rem;
   flex: 1 1 auto;
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-#todo-text {
+.todo-text {
   flex: 1 1 auto;
   width: 100%;
   resize: none;
 }
-

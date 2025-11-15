@@ -160,9 +160,6 @@
   .visible {
     visibility: visible;
   }
-  .fixed {
-    position: fixed;
-  }
   .relative {
     position: relative;
   }
@@ -192,6 +189,9 @@
   }
   .resize {
     resize: both;
+  }
+  .flex-wrap {
+    flex-wrap: wrap;
   }
 }
 @property --tw-rotate-x {
