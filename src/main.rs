@@ -1,9 +1,6 @@
 use dioxus::prelude::*;
 
-const FAVICON: Asset = asset!("/assets/favicon.ico");
 const CSS: Asset = asset!("/assets/main.css");
-const HEADER_SVG: Asset = asset!("/assets/header.svg");
-const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 
 fn main() {
     dioxus::launch(App);
@@ -13,16 +10,35 @@ fn main() {
 fn App() -> Element {
     rsx! {
         document::Stylesheet { href: CSS }
-        div { id: "container",
-            div { id: "sidebar",
+        Navbar{}
+        Content{}
+    }
+}
 
+#[component]
+fn Navbar() -> Element {
+    rsx! {
+        div { id: "navbar",
+            h1 {"Navbar"}
+        }
+    }
+}
+
+#[component]
+fn Content() -> Element {
+    rsx! {
+        div { id: "layout",
+            div { id: "sidebar",
+                h1 { "Sidebar" }
             }
-            div { id: "note",
+            div { id: "container",
                 div { id: "head",
                     h1 { "TitleBar" }
-                }
+                },
                 div { id: "todo",
-                    h1 { "Body" }
+                    textarea { id: "todo-text",
+                    "Type here"
+                    }
                 }
             }
         }

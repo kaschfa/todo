@@ -1,45 +1,66 @@
-/* App-wide styling */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 body {
-    background-color: white;
-    color: black;
-    margin: 20px;
-    width: 100%;
-    height: 100%;
+  background-color: white;
+  color: black;
 }
 
 #main {
-    display: grid; 
-    grid-template-columns: auto;
-    grid-template-rows: 10% 80% 10%;
-    width: 100%;
-    height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
 }
 
-#container {
+#navbar {
+  grid-row: 1;
+  background-color: #ccc;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+}
+
+#layout {
+  grid-row: 2;
   display: grid;
-  grid-template-columns: 20% 80%;
-  grid-template-rows: auto;
-  width: 100%;
+  grid-template-columns: 1fr 9fr;
   height: 100%;
 }
 
 #sidebar {
   background-color: blue;
-  width: 100%;
-  height: 100%;
+  color: white;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 #head {
   background-color: red;
-  width: 100%;
-  height: 100%;
+  padding: 0.75rem 1rem;
+  flex: 0 0 auto;
 }
 
 #todo {
-  background-color:grey;
-  width: 100%;
-  height: 100%;
+  background-color: #eee;
+  padding: 1rem;
+  flex: 1 1 auto;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-
+#todo-text {
+  flex: 1 1 auto;
+  width: 100%;
+  resize: none;
+}
 
