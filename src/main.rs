@@ -1,5 +1,11 @@
 use dioxus::prelude::*;
 
+#[derive(serde::Deserialize)]
+struct RandomFact {
+    id: String,
+    text: String,
+}
+
 const CSS: Asset = asset!("/assets/main.css");
 
 fn main() {
@@ -79,20 +85,38 @@ fn Todo() -> Element {
 
 #[component]
 fn Todo_Head() -> Element {
+    /*let text = move |_| async move {
+        reqwest::get("https://uselessfacts.jsph.pl/api/v2/facts/random")
+            .await
+            .unwrap()
+            .json::<RandomFact>()
+            .await
+            .unwrap()
+    };*/
+    let mut text = use_signal(|| String::new());
+
     rsx! {
         div {
             class: "todo-head",
             div {
                 class: "todo-title",
                 input {
-                class: "todo-title-text",
-                placeholder: "Title here"
-            }
+                    class: "todo-title-text",
+                    placeholder: "Title here",
+                    value: "{text}",
+                    oninput: move |evt| {
+                        text.set(evt.value().clone());
+                    }
+                }
             }
             div {
                 class: "todo-options",
                 button {
                     class: "todo-edit",
+                    onclick: move |_| async move {
+                        let value: String = text();
+                        _ = save_text(value).await;
+                    },
                     ""
                 }
             }
@@ -111,4 +135,19 @@ fn Todo_Body() -> Element {
             }
         }
     }
+}
+
+#[post("/api/save_text")]
+async fn save_text(text: String) -> Result<()> {
+    use std::io::Write;
+
+    let mut file = std::fs::OpenOptions::new()
+        .write(true)
+        .append(true)
+        .open("text.txt")
+        .unwrap();
+
+    file.write_fmt(format_args!("{text}\n")).unwrap();
+
+    Ok(())
 }

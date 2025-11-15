@@ -181,17 +181,8 @@
       max-width: 96rem;
     }
   }
-  .flex {
-    display: flex;
-  }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
-  }
-  .resize {
-    resize: both;
-  }
-  .flex-wrap {
-    flex-wrap: wrap;
   }
 }
 @property --tw-rotate-x {
