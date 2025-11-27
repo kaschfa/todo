@@ -5,7 +5,11 @@ module.exports = {
     "./index.html",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        jetmono: ['"JetBrainsMono Nerd Font"', 'monospace'],
+      },
+    },
   },
   plugins: [],
 };

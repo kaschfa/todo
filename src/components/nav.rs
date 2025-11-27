@@ -4,10 +4,10 @@ use dioxus::prelude::*;
 #[component]
 pub fn Navbar() -> Element {
     rsx! {
-       div {
-            class: "flex shadow-lg items-center p-1",
-            div {
-                class: "flex-1 flex justify-start items-center",
+       header {
+            class: "flex shadow-lg items-center p-1 font-mono bg-slate-50 rounded-xl border border-slate-400",
+            nav {
+                class: "flex-1 flex justify-start items-center divide-x divide-gray-500",
                 a {
                     class: "p-2 hover:shadow-md",
                     "Home"
@@ -28,7 +28,7 @@ pub fn Navbar() -> Element {
                     "TO-DO"
                 }
             }
-            div {
+            nav {
                 class: "flex-1 flex justify-end items-center",
                 a {
                     class: "p-2",

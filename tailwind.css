@@ -1,2 +1,9 @@
 @import "tailwindcss";
+
+@layer base {
+  #main {
+    @apply min-h-screen flex flex-col p-2 gap-y-1;
+  }
+}
+
 @source "./src/**/*.{rs,html,css}";
