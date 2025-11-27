@@ -5,7 +5,7 @@ use dioxus::prelude::*;
 pub fn Navbar() -> Element {
     rsx! {
        header {
-            class: "flex shadow-lg items-center p-1 font-mono bg-slate-50 rounded-xl border border-slate-400",
+            class: "flex shadow-lg items-center p-1 font-mono bg-slate-50 rounded-xl border border-slate-400 ",
             nav {
                 class: "flex-1 flex justify-start items-center divide-x divide-gray-500",
                 a {
