@@ -1,5 +1,5 @@
-mod backend;
 mod components;
+mod server;
 
 use crate::components::*;
 use dioxus::prelude::*;
@@ -13,6 +13,7 @@ struct RandomFact {
 #[derive(Routable, Clone, PartialEq)]
 enum Route {
     #[layout(Navbar)]
+    #[layout(Sidebar)]
     #[route("/")]
     TodoView,
 }
@@ -23,8 +24,6 @@ fn main() {
 
 #[component]
 fn App() -> Element {
-    let mut sidebar_open = use_signal(|| false);
-
     rsx! {
         document::Stylesheet{ href: asset!("/assets/tailwind.css")}
         Router::<Route> {}
