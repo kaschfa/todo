@@ -211,9 +211,6 @@
   .grid {
     display: grid;
   }
-  .table {
-    display: table;
-  }
   .min-h-0 {
     min-height: calc(var(--spacing) * 0);
   }

@@ -2,6 +2,7 @@ mod components;
 mod server;
 
 use crate::components::*;
+use crate::server::*;
 use dioxus::prelude::*;
 
 #[derive(serde::Deserialize)]
@@ -11,7 +12,7 @@ struct RandomFact {
 }
 
 #[derive(Routable, Clone, PartialEq)]
-enum Route {
+pub enum Route {
     #[layout(Navbar)]
     #[layout(Sidebar)]
     #[route("/")]
