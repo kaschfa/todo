@@ -3,7 +3,7 @@ use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime};
 use dioxus::prelude::*;
 
 #[component]
-pub fn TodoView() -> Element {
+pub fn Create_Todo() -> Element {
     let mut title = use_signal(|| "".to_string());
     let mut due_time = use_signal(|| "".to_string());
     let mut due_date = use_signal(|| "".to_string());

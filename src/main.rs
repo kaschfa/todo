@@ -16,7 +16,9 @@ pub enum Route {
     #[layout(Navbar)]
     #[layout(Sidebar)]
     #[route("/")]
-    TodoView,
+    Todo_Overview,
+    #[route("/todo/new")]
+    Create_Todo,
 }
 
 fn main() {
