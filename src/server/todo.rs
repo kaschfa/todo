@@ -5,7 +5,7 @@ use dioxus::prelude::*;
 use sqlx::Row;
 use uuid::Uuid;
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "server", derive(sqlx::FromRow))]
 pub struct Todo {
     pub id: Option<Uuid>,            // DB generates if None
@@ -50,6 +50,25 @@ pub async fn get_todos() -> Result<Vec<Todo>, ServerFnError> {
     .map_err(|e| ServerFnError::new(format!("DB query error: {e}")))?;
 
     Ok(todos)
+}
+
+#[server]
+pub async fn get_todo(id: Uuid) -> Result<Todo, ServerFnError> {
+    let pool = get_pool().await;
+
+    let todo = sqlx::query_as::<_, Todo>(
+        r#"
+        SELECT id, title, due_time, due_date, description, created
+        FROM todo
+        WHERE id = $1
+        "#,
+    )
+    .bind(id)
+    .fetch_one(pool)
+    .await
+    .map_err(|e| ServerFnError::new(format!("DB query error: {e}")))?;
+
+    Ok(todo)
 }
 
 #[server]
