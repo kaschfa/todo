@@ -1,16 +1,9 @@
 mod components;
 mod server;
+mod shared;
 
 use crate::components::*;
-use crate::server::*;
 use dioxus::prelude::*;
-use uuid::Uuid;
-
-#[derive(serde::Deserialize)]
-struct RandomFact {
-    id: String,
-    text: String,
-}
 
 #[derive(Routable, Clone, PartialEq)]
 pub enum Route {
@@ -19,9 +12,9 @@ pub enum Route {
     #[route("/")]
     Todo_Overview,
     #[route("/todo/new")]
-    Create_Todo,
-    #[route("/todo/edit/:id")]
-    Todo_Edit { id: Uuid },
+    Todo_Create,
+    #[route("/todo/edit:id")]
+    Todo_Edit { id: i64 },
 }
 
 fn main() {

@@ -1,9 +1,9 @@
-use crate::server::todo::*;
-use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime};
+use crate::server::api;
+use crate::shared::dto;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Create_Todo() -> Element {
+pub fn Todo_Create() -> Element {
     let mut title = use_signal(|| "".to_string());
     let mut due_time = use_signal(|| "".to_string());
     let mut due_date = use_signal(|| "".to_string());
@@ -47,9 +47,9 @@ pub fn Create_Todo() -> Element {
                         let title = title();
                         let due_time = due_time();
                         let due_date = due_date();
-                        let description = description();
+                        let note = description();
                         spawn(async move {
-                            let _ = write_todo(title, due_time, due_date, description).await;
+                            let _ = create_todo(title, due_time, due_date, Some(note)).await;
                         });
                     },
                     "Save"
@@ -59,22 +59,15 @@ pub fn Create_Todo() -> Element {
     }
 }
 
-async fn write_todo(
+async fn create_todo(
     title: String,
-    due_time_str: String,
-    due_date_str: String,
-    description: String,
+    due_time: String,
+    due_date: String,
+    note: Option<String>,
 ) -> Result<()> {
-    let todo: Todo = Todo::new(
-        title,
-        NaiveTime::parse_from_str(&due_time_str, "%H:%M").ok(),
-        NaiveDate::parse_from_str(&due_date_str, "%Y-%m-%d").ok(),
-        if description.is_empty() {
-            None
-        } else {
-            Some(description)
-        },
-    );
-    save_todo(todo).await?;
+    let todo = dto::NewTodoDto::new(title, due_date, due_time, note);
+    println!("Client create");
+    api::todo::new_todo(todo).await;
+
     Ok(())
 }

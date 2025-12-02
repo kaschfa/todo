@@ -9,18 +9,15 @@ edition = "2021"
 [dependencies]
 dioxus = { version = "0.7.1", features = ["fullstack", "router"] }
 reqwest = { version = "0.12.24", features = ["json"] }
+sea-orm = { version = "1.1.19", optional = true, features = [
+  "sqlx-postgres",
+  "runtime-tokio-native-tls",
+  "macros",
+  "with-time",
+] }
 serde = { version = "1.0.228", features = ["derive"] }
 tokio = { version = "1", features = ["full"], optional = true }
-sqlx = { version = "0.8", features = [
-  "postgres",
-  "runtime-tokio-rustls",
-  "chrono",
-  "uuid",
-], optional = true }
-serde_json = "1"
-once_cell = { version = "1", optional = true }
-uuid = { version = "1", features = ["serde"] }
-chrono = { version = "0.4", features = ["serde"] }
+
 
 [features]
 default = [] # <----- remove the default web target
@@ -29,7 +26,6 @@ desktop = ["dioxus/desktop"]
 mobile = ["dioxus/mobile"]
 server = [
   "dioxus/server",
-  "tokio",
-  "sqlx",
-  "once_cell",
+  "dep:tokio",
+  "dep:sea-orm",
 ] # <----- add this additional target

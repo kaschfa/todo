@@ -1,5 +1,6 @@
-mod dbpool;
-pub mod todo;
+#[cfg(feature = "server")]
+pub mod database;
+#[cfg(feature = "server")]
+pub mod entitys;
 
-pub use dbpool::*;
-pub use todo::*;
+pub mod api;
