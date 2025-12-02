@@ -14,7 +14,8 @@ pub async fn get_all_todos() -> Result<Vec<TodoDto>, ServerFnError> {
         .all(&db)
         .await
         .expect("todo load error");
-    Ok(models.into_iter().map(Into::into).collect())
+    let dtos: Vec<TodoDto> = models.into_iter().map(|m| TodoDto::from(m)).collect();
+    Ok(dtos)
 }
 
 #[server(NewTodo, "/api/todo")]

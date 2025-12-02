@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 pub struct TodoDto {
     pub id: i64,
     pub title: String,
@@ -10,7 +10,7 @@ pub struct TodoDto {
     pub created_at: String,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 pub struct NewTodoDto {
     pub title: String,
     pub note: Option<String>,
