@@ -12,18 +12,9 @@ pub fn Todo_Overview() -> Element {
             class: "grid grid-cols-5 grid-rows-3 rounded-xl border border-slate-500 p-5 gap-2",
             match &*todos.read() {
                 Some(Ok(list)) => rsx! {
-                    {list.iter().map( |todo| {
-                        rsx! {
-                            div {
-                                class: "rounded-xl border border-slate-500 p-2 text-center shadow-lg hover:shadow-2xl",
-                                p {"{todo.id}"}
-                                p {"{todo.title}"}
-                                p { "{todo.due_time}"}
-                                p {"{todo.due_date}"}
-                                div { "{todo.note.clone().unwrap_or_default()}"}
-                            }
-                        }
-                    })}
+                    for todo in list {
+                        todo_card { todo: todo.clone() }
+                    }
                 },
                 Some(Err(e)) => rsx!{ p { "Error: {e}" } },
                 None => rsx!{ p { "Loading..." } },
