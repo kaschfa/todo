@@ -13,7 +13,7 @@ pub enum Route {
     Todo_Overview,
     #[route("/todo/new")]
     Todo_Create,
-    #[route("/todo/edit:id")]
+    #[route("/todo/edit/:id")]
     Todo_Edit { id: i64 },
 }
 

@@ -1,7 +1,7 @@
 use crate::shared::dto::*;
 use dioxus::prelude::*;
 
-#[server(GetAllTodos, "/api/todo")]
+#[server]
 pub async fn get_all_todos() -> Result<Vec<TodoDto>, ServerFnError> {
     use crate::server::database;
     use crate::server::entitys::todo;
@@ -18,7 +18,7 @@ pub async fn get_all_todos() -> Result<Vec<TodoDto>, ServerFnError> {
     Ok(dtos)
 }
 
-#[server(NewTodo, "/api/todo")]
+#[server]
 pub async fn new_todo(todo: NewTodoDto) -> Result<(), ServerFnError> {
     use crate::server::database;
     use crate::server::entitys::todo;
@@ -35,4 +35,45 @@ pub async fn new_todo(todo: NewTodoDto) -> Result<(), ServerFnError> {
         .map_err(|e| ServerFnError::new(e.to_string()))?;
 
     Ok(())
+}
+
+#[server]
+pub async fn get_todo_by_id(id: i64) -> Result<TodoDto, ServerFnError> {
+    use crate::server::database;
+    use crate::server::entitys::todo;
+    use sea_orm::EntityTrait;
+
+    println!("{}", id);
+
+    let db = database::connect()
+        .await
+        .map_err(|e| ServerFnError::new(e.to_string()))?;
+
+    if let Ok(Some(model)) = todo::Entity::find_by_id(id).one(&db).await {
+        Ok(TodoDto::from(model))
+    } else {
+        Err(ServerFnError::Response(
+            format!("Failed to load todo with id: {id}").into(),
+        ))
+    }
+}
+
+#[server]
+pub async fn edit_todo(todo: TodoDto) -> Result<(), ServerFnError> {
+    use crate::server::database;
+    use crate::server::entitys::todo;
+    use sea_orm::ActiveModelTrait;
+    use sea_orm::IntoActiveModel;
+    //needs redo  without loading from db again prob
+    let db = database::connect()
+        .await
+        .map_err(|e| ServerFnError::new(e.to_string()))?;
+
+    let todo: todo::ActiveModel = todo.into_active_model();
+
+    if let Ok(model) = todo.update(&db).await {
+        Ok(())
+    } else {
+        Err(ServerFnError::Response("Saving todo failed".to_string()))
+    }
 }

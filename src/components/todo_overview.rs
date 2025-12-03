@@ -5,21 +5,21 @@ use dioxus::prelude::*;
 
 #[component]
 pub fn Todo_Overview() -> Element {
-    let todos: Resource<Result<Vec<TodoDto>, ServerFnError>> =
-        use_resource(|| async move { api::todo::get_all_todos().await });
-    rsx! {
-        div { /* grid rows might need changing */
-            class: "grid grid-cols-5 grid-rows-3 rounded-xl border border-slate-500 p-5 gap-2",
-            match &*todos.read() {
-                Some(Ok(list)) => rsx! {
-                    for todo in list {
-                        todo_card { todo: todo.clone() }
-                    }
-                },
-                Some(Err(e)) => rsx!{ p { "Error: {e}" } },
-                None => rsx!{ p { "Loading..." } },
+    let todos = use_resource(move || async move { api::todo::get_all_todos().await });
+
+    let todos = todos.read();
+
+    match todos.as_ref() {
+        Some(Ok(t)) => rsx! {
+            div { /* grid rows might need changing */
+                class: "grid grid-cols-5 grid-rows-3 rounded-xl border border-slate-500 p-5 gap-2",
+                for todo in t {
+                    todo_card { todo: todo.clone() }
+                }
             }
-        }
+        },
+        Some(Err(e)) => rsx! { p { "Error: {e}" } },
+        None => rsx! { p { "Loading..." } },
     }
 }
 
