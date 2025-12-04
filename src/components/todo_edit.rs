@@ -39,7 +39,7 @@ pub fn Todo_Edit(id: i64) -> Element {
                         textarea {
                             class: "flex-1 outline-none focus:outline-none focus:ring-0 border-0",
                             placeholder: "Notes !",
-                            //value: "{t.note}",
+                            value: "{t.note.clone().unwrap_or_default()}",
                             oninput: move |e| t_s.write().note = Some(e.value()),
                         }
                         button {
