@@ -16,6 +16,7 @@ sea-orm = { version = "1.1.19", optional = true, features = [
   "with-time",
 ] }
 serde = { version = "1.0.228", features = ["derive"] }
+time = { version = "0.3.44", features = ["parsing", "serde", "macros"] }
 tokio = { version = "1", features = ["full"], optional = true }
 
 
