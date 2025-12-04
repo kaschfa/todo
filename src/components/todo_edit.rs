@@ -9,7 +9,7 @@ pub fn Todo_Edit(id: i64) -> Element {
 
     match todo.value().read().clone() {
         Some(Ok(mut t)) => {
-            let t_s = use_signal(|| t.clone());
+            let mut t_s = use_signal(|| t.clone());
             rsx! {
                 div {
                     class: "flex flex-col gap-0.5",
@@ -19,19 +19,19 @@ pub fn Todo_Edit(id: i64) -> Element {
                             class: "flex-1 rounded-xl border border-slate-500 p-1 text-center",
                             type: "text",
                             value: "{t.title}",
-                            oninput: move |e| t_s().title = e.value(),
+                            oninput: move |e| t_s.write().title = e.value(),
                         }
                         input {
                             class: "rounded-xl border border-slate-500 p-1",
                             type: "time",
                             value: "{t.due_time}",
-                            oninput: move |e| t_s().due_time = e.value(),
+                            oninput: move |e| t_s.write().due_time = e.value(),
                         }
                         input {
                             class: "rounded-xl border border-slate-500 p-1",
                             type: "date",
                             value: "{t.due_date}",
-                            oninput: move |e| t_s().due_date = e.value(),
+                            oninput: move |e| t_s.write().due_date = e.value(),
                         }
                     }
                     div {
@@ -40,7 +40,7 @@ pub fn Todo_Edit(id: i64) -> Element {
                             class: "flex-1 outline-none focus:outline-none focus:ring-0 border-0",
                             placeholder: "Notes !",
                             //value: "{t.note}",
-                            oninput: move |e| t_s().note = Some(e.value()),
+                            oninput: move |e| t_s.write().note = Some(e.value()),
                         }
                         button {
                             class: "absolute bottom-4 right-4 bg-slate-500 text-white py-2 px-4 rounded-2xl shadow-lg z-10 hover:bg-slate-600",

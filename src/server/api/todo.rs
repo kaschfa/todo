@@ -74,6 +74,7 @@ pub async fn edit_todo(todo: TodoDto) -> Result<(), ServerFnError> {
     if let Ok(model) = todo.update(&db).await {
         Ok(())
     } else {
+        panic!();
         Err(ServerFnError::Response("Saving todo failed".to_string()))
     }
 }

@@ -42,7 +42,7 @@ impl IntoActiveModel<ActiveModel> for TodoDto {
     fn into_active_model(self) -> ActiveModel {
         let format_dt =
             format_description!("[year]-[month]-[day] [hour]:[minute]:[second].[subsecond]");
-        let format_t = format_description!("[hour]:[minute]:[second].[subsecond]");
+        let format_t = format_description!("[hour]:[minute]");
         let format_d = format_description!("[year]-[month]-[day]");
         dbg!(&self.due_time);
         ActiveModel {
@@ -61,7 +61,7 @@ impl IntoActiveModel<ActiveModel> for TodoDto {
 
 impl NewTodoDto {
     pub fn into_active_model(self) -> ActiveModel {
-        let format_t = format_description!("[hour]:[minute]:[second].[subsecond]");
+        let format_t = format_description!("[hour]:[minute]");
         let format_d = format_description!("[year]-[month]-[day]");
         dbg!(&self.due_time);
         ActiveModel {
