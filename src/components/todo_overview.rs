@@ -37,6 +37,7 @@ pub fn todo_card(todo: TodoDto) -> Element {
             p {"{todo.title}"}
             p { "{todo.due_time}"}
             p {"{todo.due_date}"}
+            p {"{todo.created_at}"}
             div { "{todo.note.clone().unwrap_or_default()}"}
         }
     }

@@ -23,6 +23,7 @@ impl ActiveModelBehavior for ActiveModel {}
 
 impl From<Model> for TodoDto {
     fn from(m: Model) -> Self {
+        dbg!(&m);
         TodoDto {
             id: m.id,
             title: m.title,
