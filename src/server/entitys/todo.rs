@@ -30,9 +30,9 @@ impl From<Model> for TodoDto {
             id: m.id,
             title: m.title,
             note: m.note,
-            due_date: m.due_date.to_string(),
-            due_time: m.due_time.to_string(),
-            created_at: m.created_at.to_string(),
+            due_date: m.due_date,
+            due_time: m.due_time,
+            created_at: m.created_at,
         }
     }
 }
@@ -49,12 +49,9 @@ impl IntoActiveModel<ActiveModel> for TodoDto {
             id: Set(self.id),
             title: Set(self.title),
             note: Set(self.note),
-            due_date: Set(Date::parse(&self.due_date.trim(), &format_d).expect("invalid date")),
-            due_time: Set(Time::parse(&self.due_time.trim(), &format_t).expect("invalid time")),
-            created_at: Set(
-                PrimitiveDateTime::parse(&self.created_at.trim(), &format_dt)
-                    .expect("invalid datetime"),
-            ),
+            due_date: Set(self.due_date),
+            due_time: Set(self.due_time),
+            created_at: Set(self.created_at),
         }
     }
 }
@@ -67,8 +64,8 @@ impl NewTodoDto {
         ActiveModel {
             title: Set(self.title),
             note: Set(self.note),
-            due_date: Set(Date::parse(&self.due_date.trim(), &format_d).expect("invalid date")),
-            due_time: Set(Time::parse(&self.due_time.trim(), &format_t).expect("invalid time")),
+            due_date: Set(self.due_date),
+            due_time: Set(self.due_time),
             created_at: Default::default(), // Let DB handle it
             id: Default::default(),         // Auto-increment
         }

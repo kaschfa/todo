@@ -1,6 +1,8 @@
 use crate::server::api;
 use crate::shared::dto;
 use dioxus::prelude::*;
+use time::macros::format_description;
+use time::{Date, PrimitiveDateTime, Time};
 
 #[component]
 pub fn Todo_Create() -> Element {
@@ -8,6 +10,11 @@ pub fn Todo_Create() -> Element {
     let mut due_time = use_signal(|| "".to_string());
     let mut due_date = use_signal(|| "".to_string());
     let mut description = use_signal(|| "".to_string());
+    // those need to be an enum
+    let format_dt =
+        format_description!("[year]-[month]-[day] [hour]:[minute]:[second].[subsecond]");
+    let format_t = format_description!("[hour]:[minute]");
+    let format_d = format_description!("[year]-[month]-[day]");
     rsx! {
         div {
             class: "flex flex-col gap-0.5",
@@ -45,8 +52,8 @@ pub fn Todo_Create() -> Element {
                     class: "absolute bottom-4 right-4 bg-slate-500 text-white py-2 px-4 rounded-2xl shadow-lg z-10 hover:bg-slate-600",
                     onclick: move |_| {
                         let title = title();
-                        let due_time = due_time();
-                        let due_date = due_date();
+                        let due_time = Time::parse(&due_time(), &format_t).expect("invalid time");
+                        let due_date = Date::parse(&due_date(), &format_d).expect("invalid date");
                         let note = description();
                         spawn(async move {
                             let _ = create_todo(title, due_time, due_date, Some(note)).await;
@@ -61,8 +68,8 @@ pub fn Todo_Create() -> Element {
 
 async fn create_todo(
     title: String,
-    due_time: String,
-    due_date: String,
+    due_time: Time,
+    due_date: Date,
     note: Option<String>,
 ) -> Result<()> {
     let todo = dto::NewTodoDto::new(title, due_date, due_time, note);

@@ -2,10 +2,17 @@ use crate::server::api;
 use crate::shared::dto::{self, TodoDto};
 use crate::Route;
 use dioxus::prelude::*;
+use time::macros::format_description;
+use time::{Date, PrimitiveDateTime, Time};
 
 #[component]
 pub fn Todo_Edit(id: i64) -> Element {
     let todo = use_resource(move || async move { api::todo::get_todo_by_id(id).await });
+    // those need to be an enum
+    let format_dt =
+        format_description!("[year]-[month]-[day] [hour]:[minute]:[second].[subsecond]");
+    let format_t = format_description!("[hour]:[minute]");
+    let format_d = format_description!("[year]-[month]-[day]");
 
     match todo.value().read().clone() {
         Some(Ok(mut t)) => {
@@ -25,13 +32,13 @@ pub fn Todo_Edit(id: i64) -> Element {
                             class: "rounded-xl border border-slate-500 p-1",
                             type: "time",
                             value: "{t.due_time}",
-                            oninput: move |e| t_s.write().due_time = e.value(),
+                            oninput: move |e| t_s.write().due_time = Time::parse(&e.value(), &format_t).expect("invalid time"),
                         }
                         input {
                             class: "rounded-xl border border-slate-500 p-1",
                             type: "date",
                             value: "{t.due_date}",
-                            oninput: move |e| t_s.write().due_date = e.value(),
+                            oninput: move |e| t_s.write().due_date = Date::parse(&e.value(), &format_d).expect("invalid date"),
                         }
                     }
                     div {
