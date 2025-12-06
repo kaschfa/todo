@@ -1,5 +1,6 @@
 use crate::server::api;
 use crate::shared::dto;
+use crate::Route;
 use dioxus::prelude::*;
 use time::macros::format_description;
 use time::{Date, PrimitiveDateTime, Time};
@@ -56,7 +57,9 @@ pub fn Todo_Create() -> Element {
                         let due_date = Date::parse(&due_date(), &format_d).expect("invalid date");
                         let note = description();
                         spawn(async move {
+                            let nav = use_navigator();
                             let _ = create_todo(title, due_time, due_date, Some(note)).await;
+                            nav.push(Route::Todo_Overview { });
                         });
                     },
                     "Save"

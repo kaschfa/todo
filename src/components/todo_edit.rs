@@ -54,7 +54,9 @@ pub fn Todo_Edit(id: i64) -> Element {
                             onclick: move |_| {
                                 let value = t_s().clone();
                                 spawn(async move {
+                                    let nav = use_navigator();
                                     let _ = api::todo::edit_todo(value).await;
+                                    nav.push(Route::Todo_Overview { });
                                 }
                             );
                         },
